@@ -13,10 +13,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"nosleep/internal/agent"
-	"nosleep/internal/power"
-	"nosleep/internal/process"
-	"nosleep/internal/watch"
+	"nosleepp/internal/agent"
+	"nosleepp/internal/power"
+	"nosleepp/internal/process"
+	"nosleepp/internal/watch"
 )
 
 var (
@@ -74,7 +74,7 @@ func NewRootCommand(stdout, stderr io.Writer) *cobra.Command {
 
 func newRootCommand(opts *options) *cobra.Command {
 	root := &cobra.Command{
-		Use:           "nosleep",
+		Use:           "nosleepp",
 		Short:         "Keep your PC awake while AI agents are working",
 		SilenceUsage:  true,
 		SilenceErrors: true,
@@ -201,7 +201,7 @@ func newVersionCommand(stdout io.Writer) *cobra.Command {
 		Use:   "version",
 		Short: "Print version information",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			_, err := fmt.Fprintf(stdout, "nosleep %s (commit %s, built %s)\n", version, commit, date)
+			_, err := fmt.Fprintf(stdout, "nosleepp %s (commit %s, built %s)\n", version, commit, date)
 			return err
 		},
 	}

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"nosleep/cmd"
+	"nosleepp/cmd"
 )
 
 func main() {

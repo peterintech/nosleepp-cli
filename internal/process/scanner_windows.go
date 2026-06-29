@@ -8,7 +8,7 @@ import (
 	"time"
 	"unsafe"
 
-	"nosleep/internal/agent"
+	"nosleepp/internal/agent"
 )
 
 const (
