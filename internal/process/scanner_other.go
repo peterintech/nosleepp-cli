@@ -1,4 +1,4 @@
-//go:build !windows
+//go:build !windows && !darwin
 
 package process
 
@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 
-	"nosleep/internal/agent"
+	"nosleepp/internal/agent"
 )
 
 type unsupportedScanner struct{}
@@ -16,5 +16,5 @@ func NewScanner() Scanner {
 }
 
 func (unsupportedScanner) Scan(ctx context.Context) ([]agent.Process, error) {
-	return nil, errors.New("process scanning is only supported on Windows in this MVP")
+	return nil, errors.New("process scanning is only supported on Windows and macOS")
 }
