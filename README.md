@@ -1,81 +1,77 @@
-# nosleep
+# nosleepp
 
-`nosleep` is a Windows-first CLI that keeps your PC awake while AI agents are actively working.
+`nosleepp` keeps your computer awake while AI agents are actively working.
 
-It is built for tools like Codex, Claude Code, OpenCode, Antigravity, and Cursor. Unlike a simple process watcher, `nosleep` does not treat an app as working just because it is open. It samples process activity and only reports agents that show measurable CPU or child-process activity.
+It is built for agent tools such as Codex, Claude Code, OpenCode, Antigravity, and Cursor. It does not treat an app as working just because it is open. Instead, it samples process activity and reports agents that show measurable CPU or child-process activity.
 
-## What It Does
+## Supported Platforms
 
-- Detects known agent processes.
-- Samples activity over a short window.
-- Shows only working agents by default.
-- Keeps Windows from putting the system to sleep while agents are working.
-- Keeps the system awake for a short quiet window after activity stops.
-- Restores normal sleep behavior when the work is done.
-- Allows the display to sleep normally.
+| Platform | Status | Sleep prevention |
+| --- | --- | --- |
+| Windows x64 | Supported | Native `SetThreadExecutionState` |
+| macOS Apple Silicon | Supported | Built-in `caffeinate -i` |
+| macOS Intel | Supported | Built-in `caffeinate -i` |
+| Linux | Not supported in v2 | Planned for a later version |
 
-## Install Or Build
+`nosleepp` prevents system idle sleep. It does not force the display to stay awake.
 
-From this project folder:
+## Install
 
-```powershell
-go build -o nosleep.exe .
+The planned npm package name is `nosleepp`, while the installed command is `nosleepp`.
+
+```bash
+npm install -g nosleepp
+nosleepp watch
 ```
 
-Run it directly:
+You can also run a local build directly from this repository:
 
 ```powershell
-.\nosleep.exe list
-.\nosleep.exe watch
+go build -o nosleepp.exe .
+.\nosleepp.exe watch
 ```
 
-To use `nosleep` from any folder, add this project folder to your Windows `PATH`:
+On macOS:
 
-```text
-C:\Users\yourname\yourlocation\repo
-```
-
-Then you can run:
-
-```powershell
-nosleep list
-nosleep watch
+```bash
+go build -o nosleepp .
+./nosleepp watch
 ```
 
 ## Quick Start
 
 Check whether any agent is actively working:
 
-```powershell
-nosleep list
+```bash
+nosleepp list
 ```
 
-Keep the PC awake while agents are working:
+Keep the computer awake while agents are working:
 
-```powershell
-nosleep watch
+```bash
+nosleepp watch
 ```
 
 Show open agents too, even if they are idle:
 
-```powershell
-nosleep list --all
+```bash
+nosleepp list --all
 ```
 
 Check once, then exit with a status code:
 
-```powershell
-nosleep watch --once
+```bash
+nosleepp watch --once
 ```
 
 ## How Working Detection Works
 
-`nosleep` takes two process snapshots separated by a sample window. The default sample window is `2s`.
+`nosleepp` takes two process snapshots separated by a sample window. The default sample window is `2s`.
 
 An agent is marked `working` when either:
 
-- the agent process or one of its child processes gains at least `250ms` of CPU time during the sample window, or
-- a child process appears or disappears during the sample window.
+- the agent process or one of its descendant processes gains at least `250ms` of CPU time during the sample window, or
+- a descendant process appears or disappears during the sample window.
 
 An agent is marked `idle` when the process is open but no meaningful activity is detected.
 
@@ -83,26 +79,26 @@ By default, `list` only shows `working` agents. Use `--all` to include `idle` ag
 
 ## Default Agents
 
-`nosleep` detects these agent process names by default:
+`nosleepp` detects these agent process names by default:
 
-| Agent       | Process names      |
-| ----------- | ------------------ |
-| Codex       | `codex`, `Codex`   |
-| Claude Code | `claude`           |
-| OpenCode    | `opencode`         |
-| Antigravity | `antigravity`      |
-| Cursor      | `Cursor`, `cursor` |
+| Agent | Process names |
+| --- | --- |
+| Codex | `codex`, `Codex` |
+| Claude Code | `claude` |
+| OpenCode | `opencode` |
+| Antigravity | `antigravity` |
+| Cursor | `Cursor`, `cursor` |
 
 Matching is case-insensitive, and `.exe` is ignored.
 
 ## Commands
 
-### `nosleep list`
+### `nosleepp list`
 
 Lists agents that are actively working.
 
-```powershell
-nosleep list
+```bash
+nosleepp list
 ```
 
 Default behavior:
@@ -110,64 +106,64 @@ Default behavior:
 - samples activity for `2s`
 - prints only `working` agents
 - prints `No working agents found.` if matching agent apps are open but idle
-- does not change Windows power state
+- does not change power state
 
 Text output columns:
 
-| Column      | Meaning                                                |
-| ----------- | ------------------------------------------------------ |
-| `AGENT`     | Human-readable agent name                              |
-| `PID`       | Process ID                                             |
-| `PROCESS`   | Executable name                                        |
-| `STATUS`    | `working` or `idle`                                    |
-| `CPU_DELTA` | CPU time gained during the sample                      |
-| `CHILDREN`  | Number of descendant processes                         |
-| `EVIDENCE`  | Why it was marked working, such as `cpu` or `children` |
+| Column | Meaning |
+| --- | --- |
+| `AGENT` | Human-readable agent name |
+| `PID` | Process ID |
+| `PROCESS` | Executable name |
+| `STATUS` | `working` or `idle` |
+| `CPU_DELTA` | CPU time gained during the sample |
+| `CHILDREN` | Number of descendant processes |
+| `EVIDENCE` | Why it was marked working, such as `cpu` or `children` |
 
-Useful examples:
+Examples:
 
-```powershell
-nosleep list
-nosleep list --all
-nosleep list --json
-nosleep list --sample 5s
-nosleep list --cpu-threshold 100ms
+```bash
+nosleepp list
+nosleepp list --all
+nosleepp list --json
+nosleepp list --sample 5s
+nosleepp list --cpu-threshold 100ms
 ```
 
-### `nosleep watch`
+### `nosleepp watch`
 
-Watches for working agents and prevents system sleep while work is active.
+Watches for working agents and prevents system idle sleep while work is active.
 
-```powershell
-nosleep watch
+```bash
+nosleepp watch
 ```
 
 Default behavior:
 
 - samples activity for `2s`
 - polls every `10s`
-- prevents system sleep when working agents are found
-- keeps the PC awake for `30s` after activity stops
+- prevents system idle sleep when working agents are found
+- keeps the computer awake for `30s` after activity stops
 - releases the no-sleep lock and exits after the quiet window
 - restores normal sleep behavior on `Ctrl+C`
 
-Useful examples:
+Examples:
 
-```powershell
-nosleep watch
-nosleep watch --interval 5s
-nosleep watch --sample 3s
-nosleep watch --quiet 1m
-nosleep watch --cpu-threshold 100ms
-nosleep watch --json
+```bash
+nosleepp watch
+nosleepp watch --interval 5s
+nosleepp watch --sample 3s
+nosleepp watch --quiet 1m
+nosleepp watch --cpu-threshold 100ms
+nosleepp watch --json
 ```
 
-### `nosleep watch --once`
+### `nosleepp watch --once`
 
 Checks once and exits.
 
-```powershell
-nosleep watch --once
+```bash
+nosleepp watch --once
 ```
 
 This is useful for scripts.
@@ -177,31 +173,25 @@ Exit behavior:
 - exits `0` when at least one working agent is found
 - exits `1` when no working agents are found
 
-### `nosleep version`
+### `nosleepp version`
 
 Prints version/build information.
 
-```powershell
-nosleep version
+```bash
+nosleepp version
 ```
 
-Current local development builds print something like:
-
-```text
-nosleep dev (commit none, built unknown)
-```
-
-### `nosleep completion`
+### `nosleepp completion`
 
 Generated by Cobra. It prints shell completion scripts.
 
 Examples:
 
-```powershell
-nosleep completion powershell
-nosleep completion bash
-nosleep completion zsh
-nosleep completion fish
+```bash
+nosleepp completion powershell
+nosleepp completion bash
+nosleepp completion zsh
+nosleepp completion fish
 ```
 
 ## Global Flags
@@ -218,25 +208,25 @@ name=process1,process2
 
 Examples:
 
-```powershell
-nosleep list --agent "MyAgent=myagent,myagent-helper"
-nosleep watch --agent "Codex=codex,codex-agent"
+```bash
+nosleepp list --agent "MyAgent=myagent,myagent-helper"
+nosleepp watch --agent "Codex=codex,codex-agent"
 ```
 
 If the name matches an existing agent, that profile is replaced for the current command.
 
 You can pass `--agent` more than once:
 
-```powershell
-nosleep watch --agent "AgentA=agenta" --agent "AgentB=agentb,agentb-helper"
+```bash
+nosleepp watch --agent "AgentA=agenta" --agent "AgentB=agentb,agentb-helper"
 ```
 
 ### `--config`
 
 Reserved for future config-file support.
 
-```powershell
-nosleep list --config .\nosleep.toml
+```bash
+nosleepp list --config ./nosleepp.toml
 ```
 
 The current version accepts the flag but does not load config from it yet.
@@ -247,18 +237,18 @@ The current version accepts the flag but does not load config from it yet.
 
 Shows idle/open matching agents as well as working agents.
 
-```powershell
-nosleep list --all
+```bash
+nosleepp list --all
 ```
 
-Use this when you want to confirm whether `nosleep` can see an agent process at all.
+Use this when you want to confirm whether `nosleepp` can see an agent process at all.
 
 ### `--json`
 
 Prints machine-readable JSON.
 
-```powershell
-nosleep list --json
+```bash
+nosleepp list --json
 ```
 
 Example shape:
@@ -279,7 +269,7 @@ Example shape:
 
 ### `--sample`
 
-Controls how long `nosleep` waits between snapshots.
+Controls how long `nosleepp` waits between snapshots.
 
 Default:
 
@@ -289,9 +279,9 @@ Default:
 
 Examples:
 
-```powershell
-nosleep list --sample 5s
-nosleep list --sample 500ms
+```bash
+nosleepp list --sample 5s
+nosleepp list --sample 500ms
 ```
 
 A longer sample can reduce false negatives. A shorter sample makes the command faster.
@@ -308,9 +298,9 @@ Default:
 
 Examples:
 
-```powershell
-nosleep list --cpu-threshold 100ms
-nosleep list --cpu-threshold 1s
+```bash
+nosleepp list --cpu-threshold 100ms
+nosleepp list --cpu-threshold 1s
 ```
 
 Lower values are more sensitive. Higher values are stricter.
@@ -329,8 +319,8 @@ Default:
 
 Example:
 
-```powershell
-nosleep watch --interval 5s
+```bash
+nosleepp watch --interval 5s
 ```
 
 ### `--sample`
@@ -345,8 +335,8 @@ Default:
 
 Example:
 
-```powershell
-nosleep watch --sample 3s
+```bash
+nosleepp watch --sample 3s
 ```
 
 ### `--cpu-threshold`
@@ -361,13 +351,13 @@ Default:
 
 Example:
 
-```powershell
-nosleep watch --cpu-threshold 100ms
+```bash
+nosleepp watch --cpu-threshold 100ms
 ```
 
 ### `--quiet`
 
-Controls how long the PC stays awake after the last detected activity.
+Controls how long the computer stays awake after the last detected activity.
 
 Default:
 
@@ -377,8 +367,8 @@ Default:
 
 Example:
 
-```powershell
-nosleep watch --quiet 1m
+```bash
+nosleepp watch --quiet 1m
 ```
 
 This helps with agent workflows that pause briefly between tool calls, network requests, or file operations.
@@ -387,94 +377,149 @@ This helps with agent workflows that pause briefly between tool calls, network r
 
 Checks once and exits.
 
-```powershell
-nosleep watch --once
+```bash
+nosleepp watch --once
 ```
 
 ### `--json`
 
 Prints match details as JSON when state changes.
 
-```powershell
-nosleep watch --json
+```bash
+nosleepp watch --json
 ```
 
 ## Exit Codes
 
-| Code | Meaning                                                                |
-| ---- | ---------------------------------------------------------------------- |
-| `0`  | Success, or `watch --once` found a working agent                       |
-| `1`  | `watch --once` found no working agents                                 |
-| `2`  | Invalid CLI usage or agent flag                                        |
-| `3`  | Failed to acquire/release Windows power state or watcher runtime error |
+| Code | Meaning |
+| --- | --- |
+| `0` | Success, or `watch --once` found a working agent |
+| `1` | `watch --once` found no working agents |
+| `2` | Invalid CLI usage or agent flag |
+| `3` | Failed to acquire/release platform power state or watcher runtime error |
+
+## npm Package
+
+The npm package lives in `npm/` and installs the command name `nosleepp`.
+
+Supported npm targets:
+
+| Target | Binary |
+| --- | --- |
+| `win32-x64` | `bin/nosleepp-win32-x64.exe` |
+| `darwin-arm64` | `bin/nosleepp-darwin-arm64` |
+| `darwin-x64` | `bin/nosleepp-darwin-x64` |
+
+Unsupported platforms install successfully, but running `nosleepp` prints a clear unsupported-platform message.
+
+Build bundled npm binaries:
+
+```powershell
+.\scripts\build-npm.ps1 -Version 0.2.0
+```
+
+On macOS/Linux shells:
+
+```bash
+./scripts/build-npm.sh 0.2.0
+```
+
+Pack locally:
+
+```bash
+cd npm
+npm pack
+```
+
+Publish:
+
+```bash
+cd npm
+npm publish
+```
+
+After publishing:
+
+```bash
+npm install -g nosleepp
+nosleepp watch
+```
 
 ## Common Workflows
 
-### Keep The PC Awake While Codex Works
+### Keep The Computer Awake While Codex Works
 
-```powershell
-nosleep watch
+```bash
+nosleepp watch
 ```
 
-Leave this running in a terminal. When Codex is actively working, Windows system sleep is blocked. When work stops and the quiet window expires, `nosleep` releases the lock and exits.
+Leave this running in a terminal. When Codex is actively working, system idle sleep is blocked. When work stops and the quiet window expires, `nosleepp` releases the lock and exits.
 
 ### Check If Anything Is Working Right Now
 
-```powershell
-nosleep list
+```bash
+nosleepp list
 ```
 
 If it prints `No working agents found.`, your agent apps may still be open, but they are not currently doing observable work.
 
 ### Debug Agent Detection
 
-```powershell
-nosleep list --all
+```bash
+nosleepp list --all
 ```
 
 This shows matching agents even when idle. If your agent does not appear here, add a custom process signature with `--agent`.
 
 ### Make Detection More Sensitive
 
-```powershell
-nosleep watch --cpu-threshold 100ms --sample 3s
+```bash
+nosleepp watch --cpu-threshold 100ms --sample 3s
 ```
 
 This catches lighter activity, at the cost of more possible false positives.
 
 ### Make Detection Stricter
 
-```powershell
-nosleep watch --cpu-threshold 1s
+```bash
+nosleepp watch --cpu-threshold 1s
 ```
 
 This reduces idle false positives, but may miss lightweight agent tasks.
 
 ## Limitations
 
-- Windows only for power management in the current version.
-- Activity detection is based on CPU and child-process changes.
+- Linux support is out of scope for v2.
+- Activity detection is based on CPU and descendant-process changes.
 - If an agent is waiting on a network response without CPU or child-process activity, it may look idle after the quiet window.
 - `--config` is reserved for future use and is not implemented yet.
-- `nosleep` prevents system sleep, not display sleep.
+- `nosleepp` prevents system idle sleep, not display sleep.
 
 ## Development
 
 Run tests:
 
-```powershell
+```bash
 go test ./...
 ```
 
-Build:
+Build the local platform binary:
 
-```powershell
-go build -o nosleep.exe .
+```bash
+go build .
 ```
 
-Run a local smoke test:
+Cross-compile macOS from Windows:
 
 ```powershell
-.\nosleep.exe list --all
-.\nosleep.exe watch --once
+$env:GOOS="darwin"; $env:GOARCH="arm64"; go build ./...
+$env:GOOS="darwin"; $env:GOARCH="amd64"; go build ./...
+Remove-Item Env:\GOOS, Env:\GOARCH
+```
+
+Run npm launcher tests:
+
+```bash
+cd npm
+npm test
 ```
