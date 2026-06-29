@@ -1,0 +1,7 @@
+.gocache/
+.npm-cache/
+/nosleepp
+nosleepp.exe
+*.test
+npm/bin/*
+!npm/bin/.gitkeep
