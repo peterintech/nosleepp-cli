@@ -1,0 +1,32 @@
+{
+  "name": "nosleepp",
+  "version": "0.2.1",
+  "description": "Keep your PC awake while AI agents are working",
+  "preferGlobal": true,
+  "bin": {
+    "nosleepp": "./index.js"
+  },
+  "files": [
+    "README.md",
+    "index.js",
+    "lib/resolve-binary.js",
+    "bin/nosleepp-win32-x64.exe",
+    "bin/nosleepp-darwin-arm64",
+    "bin/nosleepp-darwin-x64"
+  ],
+  "keywords": [
+    "nosleepp",
+    "agents",
+    "cli",
+    "caffeinate",
+    "windows",
+    "macos"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
