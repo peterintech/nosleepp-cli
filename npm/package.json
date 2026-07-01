@@ -1,6 +1,6 @@
 {
   "name": "nosleepp",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Keep your PC awake while AI agents are working",
   "preferGlobal": true,
   "bin": {
