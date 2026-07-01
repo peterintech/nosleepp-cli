@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"nosleepp/internal/agent"
+	"github.com/peterintech/nosleepp/internal/agent"
 )
 
 var ErrNoAgents = errors.New("no running agents found")

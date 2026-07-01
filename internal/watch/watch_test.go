@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"nosleepp/internal/agent"
+	"github.com/peterintech/nosleepp/internal/agent"
 )
 
 type fakeScanner struct {

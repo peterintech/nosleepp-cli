@@ -3,7 +3,7 @@ package process
 import (
 	"context"
 
-	"nosleepp/internal/agent"
+	"github.com/peterintech/nosleepp/internal/agent"
 )
 
 type Scanner interface {

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"nosleepp/internal/agent"
+	"github.com/peterintech/nosleepp/internal/agent"
 )
 
 func parseDarwinPSOutput(output string) ([]agent.Process, error) {

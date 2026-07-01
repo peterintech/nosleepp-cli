@@ -1,4 +1,4 @@
-module nosleepp
+module github.com/peterintech/nosleepp
 
 go 1.26.4
 

@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 
-	"nosleepp/internal/agent"
+	"github.com/peterintech/nosleepp/internal/agent"
 )
 
 type unsupportedScanner struct{}

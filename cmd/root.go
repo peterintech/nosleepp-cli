@@ -13,10 +13,13 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"nosleepp/internal/agent"
-	"nosleepp/internal/power"
-	"nosleepp/internal/process"
-	"nosleepp/internal/watch"
+	"github.com/peterintech/nosleepp/internal/watch"
+
+	"github.com/peterintech/nosleepp/internal/process"
+
+	"github.com/peterintech/nosleepp/internal/power"
+
+	"github.com/peterintech/nosleepp/internal/agent"
 )
 
 var (
@@ -74,7 +77,7 @@ func NewRootCommand(stdout, stderr io.Writer) *cobra.Command {
 
 func newRootCommand(opts *options) *cobra.Command {
 	root := &cobra.Command{
-		Use:           "nosleepp",
+		Use:           "github.com/peterintech/nosleepp",
 		Short:         "Keep your PC awake while AI agents are working",
 		SilenceUsage:  true,
 		SilenceErrors: true,
