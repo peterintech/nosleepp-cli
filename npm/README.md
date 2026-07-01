@@ -2,6 +2,8 @@
 
 Keep your computer awake while AI agents are actively working.
 
+**[View on GitHub](https://github.com/peterintech/nosleepp)**
+
 `nosleepp` is built for agent tools such as Codex, Claude Code, OpenCode, Antigravity, and Cursor. It does not treat an app as working just because it is open. It samples process activity and only reports agents that show measurable CPU or child-process activity.
 
 ## Install Globally
@@ -46,12 +48,12 @@ nosleepp watch --once
 
 ## Supported Platforms
 
-| Platform | Status |
-| --- | --- |
-| Windows x64 | Supported |
-| macOS Apple Silicon | Supported |
-| macOS Intel | Supported |
-| Linux | Not supported yet |
+| Platform            | Status            |
+| ------------------- | ----------------- |
+| Windows x64         | Supported         |
+| macOS Apple Silicon | Supported         |
+| macOS Intel         | Supported         |
+| Linux               | Not supported yet |
 
 `nosleepp` prevents system idle sleep. It does not force your display to stay awake.
 
@@ -90,9 +92,15 @@ You can pass `--agent` more than once.
 
 ## Exit Codes
 
-| Code | Meaning |
-| --- | --- |
-| `0` | Success, or `watch --once` found a working agent |
-| `1` | `watch --once` found no working agents |
-| `2` | Invalid CLI usage |
-| `3` | Platform power-state or watcher runtime error |
+| Code | Meaning                                          |
+| ---- | ------------------------------------------------ |
+| `0`  | Success, or `watch --once` found a working agent |
+| `1`  | `watch --once` found no working agents           |
+| `2`  | Invalid CLI usage                                |
+| `3`  | Platform power-state or watcher runtime error    |
+
+---
+
+**Its nosleepp not nosleep - the extra 'p' stands for persistence till the job is done :)**
+
+**Like nosleepp?** [Star it on GitHub](https://github.com/peterintech/nosleepp) — it helps others find it. Contributions, issues, and ideas are welcome!
