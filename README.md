@@ -17,14 +17,23 @@ It is built for agent tools such as Codex, Claude Code, OpenCode, Antigravity, a
 
 ## Install
 
-The planned npm package name is `nosleepp`, while the installed command is `nosleepp`.
+### Go Install
+
+```bash
+go install github.com/peterintech/nosleepp@latest
+nosleepp watch
+```
+
+### npm
 
 ```bash
 npm install -g nosleepp
 nosleepp watch
 ```
 
-You can also run a local build directly from this repository:
+### Local Build
+
+Build and run directly from this repository:
 
 ```powershell
 go build -o nosleepp.exe .
