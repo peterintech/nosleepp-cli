@@ -6,7 +6,7 @@ import (
 	"context"
 	"os/exec"
 
-	"nosleepp/internal/agent"
+	"github.com/peterintech/nosleepp/internal/agent"
 )
 
 type darwinScanner struct{}
